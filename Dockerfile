@@ -1,8 +1,8 @@
-FROM resin/raspberrypi3-node:slim
-
-WORKDIR /usr/src/app
+FROM resin/raspberrypi3-node:4.3
 
 RUN apt-get install pi-blaster
+
+WORKDIR /usr/src/app
 
 COPY package.json package.json
 
@@ -16,5 +16,4 @@ COPY . ./
 # Enable systemd init system in container
 ENV INITSYSTEM on
 
-# server.js will run when container starts up on the device
 CMD ["npm", "start"]
