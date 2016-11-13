@@ -1,8 +1,8 @@
 FROM resin/raspberrypi3-node:slim
 
-RUN apt-get install pi-blaster
-
 WORKDIR /usr/src/app
+
+RUN apt-get install pi-blaster
 
 COPY package.json package.json
 
