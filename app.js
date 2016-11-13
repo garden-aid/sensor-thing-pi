@@ -1,9 +1,13 @@
 'use strict'
 
+const fs = require('fs');
+
+const AWS = require('aws-sdk');
+
 const RaspiCam = require('raspicam');
 const five = require('johnny-five');
-const AWS = require('aws-sdk');
-const fs = require('fs');
+const Raspi = require('raspi-io');
+
 
 const s3 = new AWS.S3();
 
@@ -18,7 +22,9 @@ const camera = new RaspiCam({
 	timeout: 100 // take the picture immediately
 });
 
-const board = new five.Board();
+const board = new five.Board({
+  io: new Raspi()
+});
 
 board.on('ready', () => {
 	const button = new five.Button('A0');
@@ -49,7 +55,7 @@ camera.on('read', (err, timestamp, filename) => {
       console.error(err);
       return;
     }
-    
+
 		console.log('Saved file to S3', data);
 	});
 });

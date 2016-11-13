@@ -1,2 +1,4 @@
-#ignore the imgs for docs
-/img/
+*.sh
+*.md
+LICENSE
+yarn.lock
