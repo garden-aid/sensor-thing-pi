@@ -1,58 +1,67 @@
 'use strict'
 
-const fs = require('fs');
+var fs = require('fs');
 
-const AWS = require('aws-sdk');
+var AWS = require('aws-sdk');
 
-const RaspiCam = require('raspicam');
-const five = require('johnny-five');
+// var RaspiCam = require('raspicam');
+var Cylon = require('cylon');
 
+// var s3 = new AWS.S3();
 
-const s3 = new AWS.S3();
+// var bucketName = process.env.AWS_BUCKET_NAME;
 
-const bucketName = process.env.AWS_BUCKET_NAME;
+// var imagePath = '../data/image.jpg';
 
-const imagePath = '../data/image.jpg';
+// var camera = new RaspiCam({
+// 	mode: 'photo',
+// 	output: imagePath,
+// 	encoding: 'jpg',
+// 	timeout: 100 // take the picture immediately
+// });
 
-const camera = new RaspiCam({
-	mode: 'photo',
-	output: imagePath,
-	encoding: 'jpg',
-	timeout: 100 // take the picture immediately
-});
+Cylon.robot({
+  connections: {
+    raspi: { adaptor: 'raspi' },
+  },
 
-const board = new five.Board();
+  devices: {
+    button: { driver: 'button', pin: 4 },
+    lcd: { driver: 'lcd' },
+  },
 
-board.on('ready', () => {
-	const button = new five.Button(4);
+  work: function(my) {
+		// camera.start();
+    my.button.on('push', function() {
+      console.log("Button pushed!");
+    });
 
-	button.on('release', () => {
-    console.log('Taking photo');
-		camera.start();
-	});
-});
-
-
-camera.on('read', (err, timestamp, filename) => {
-  if(err) {
-    console.error(err);
-    return;
+    my.lcd.on('start', function(){
+      my.lcd.print("Hello!");
+    });
   }
+}).start();
 
-	const fileStream = fs.createReadStream(imagePath);
+// camera.on('read', (err, timestamp, filename) => {
+//   if(err) {
+//     console.error(err);
+//     return;
+//   }
 
-	const params = {
-		Bucket: bucketName,
-		Key: `garden-aid-pi-${timestamp}.jpg`,
-		Body: fileStream,
-	};
+// 	var fileStream = fs.createReadStream(imagePath);
 
-	s3.upload(params, {}, function (err, data) {
-    if(err) {
-      console.error(err);
-      return;
-    }
+// 	var params = {
+// 		Bucket: bucketName,
+// 		Key: `garden-aid-pi-${timestamp}.jpg`,
+// 		Body: fileStream,
+// 	};
 
-		console.log('Saved file to S3', data);
-	});
-});
+// 	s3.upload(params, {}, function (err, data) {
+//     if(err) {
+//       console.error(err);
+//       return;
+//     }
+
+// 		console.log('Saved file to S3', data);
+// 	});
+// });
