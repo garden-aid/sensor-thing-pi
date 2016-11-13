@@ -1,6 +1,9 @@
-FROM resin/raspberrypi3-node:4.3
+FROM resin/raspberrypi3-node
 
-RUN apt-get install pi-blaster
+# use apt-get if you need to install dependencies,
+RUN apt-get update && apt-get install -yq \
+   pi-blaster && \
+   apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 
@@ -16,4 +19,5 @@ COPY . ./
 # Enable systemd init system in container
 ENV INITSYSTEM on
 
+# server.js will run when container starts up on the device
 CMD ["npm", "start"]
