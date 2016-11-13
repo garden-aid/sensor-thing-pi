@@ -1,6 +1,6 @@
 FROM resin/raspberrypi3-node:slim
 
-RUN sudo apt-get install pi-blaster
+RUN apt-get install pi-blaster
 
 WORKDIR /usr/src/app
 
