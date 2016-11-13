@@ -6,7 +6,6 @@ const AWS = require('aws-sdk');
 
 const RaspiCam = require('raspicam');
 const five = require('johnny-five');
-const Raspi = require('raspi-io');
 
 
 const s3 = new AWS.S3();
@@ -22,12 +21,10 @@ const camera = new RaspiCam({
 	timeout: 100 // take the picture immediately
 });
 
-const board = new five.Board({
-  io: new Raspi()
-});
+const board = new five.Board();
 
 board.on('ready', () => {
-	const button = new five.Button('A0');
+	const button = new five.Button(4);
 
 	button.on('release', () => {
     console.log('Taking photo');
