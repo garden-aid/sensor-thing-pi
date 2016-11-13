@@ -16,6 +16,7 @@
   "dependencies": {
     "aws-sdk": "^2.7.0",
     "cylon": "^1.3.0",
+    "cylon-gpio": "^0.30.0",
     "cylon-raspi": "^0.20.1",
     "raspicam": "^0.2.13"
   }
