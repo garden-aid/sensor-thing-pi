@@ -3,8 +3,9 @@ FROM resin/raspberrypi3-python
 #switch on systemd init system in container
 ENV INITSYSTEM on
 
-RUN apt-get install -y git libi2c-dev python-serial i2c-tools python3-smbus arduino minicom python-dev
-RUN apt-get install - python3-rpi.gpio
+RUN apt-get update
+RUN apt-get install -y libi2c-dev python-serial python3-smbus arduino minicom python-dev
+RUN apt-get install -y python3-rpi.gpio
 
 # pip install python deps from requirements.txt
 # For caching until requirements.txt changes
