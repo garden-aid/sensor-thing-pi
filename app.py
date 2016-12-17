@@ -1,9 +1,10 @@
 # Monitor temperature and report
+import json
 import os
 import time
+
 import grovepi
 import iot
-import json
 
 def load_config():
     file_name = os.path.join(os.path.dirname(__file__), 'config.json')
@@ -40,6 +41,9 @@ def start(client_id):
             # Sleep for 60 seconds
             time.sleep(60)
         except (IOError, TypeError) as err:
-            print "Error"
+            print 'Error during measurement:', err
 
-start('garden-aid')
+try:
+    start('garden-aid')
+except (IOError) as err:
+    print 'Error during startup:', err
