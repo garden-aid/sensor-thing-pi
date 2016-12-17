@@ -1,0 +1,7 @@
+{
+    "endpoint": "a2ly3d33cxzf1a.iot.ap-southeast-2.amazonaws.com",
+    "ca_path": "/usr/src/app/certificates/root/verisign-ca.pem",
+    "key_path": "/usr/src/app/certificates/devices/private.pem.key",
+    "cert_path": "/usr/src/app/certificates/devices/certificate.pem.crt",
+    "client_id": "garden-aid-pi"
+}
