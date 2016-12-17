@@ -1,1 +1,5 @@
-modprobe bcm2835-v4l2 && python app.py
+udevd &
+modprobe i2c-bcm2708
+modprobe i2c-dev
+
+python app.py
