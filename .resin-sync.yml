@@ -3,4 +3,7 @@ destination: /usr/src/app
 port: 22
 ignore:
   - .git
-  - node_modules/
+  - .dockerignore
+  - .deploy-to-device.sh
+  - LICENSE
+  - README.md

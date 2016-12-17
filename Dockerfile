@@ -1,23 +1,20 @@
-FROM resin/raspberrypi3-node
+FROM resin/raspberrypi3-python
 
-# use apt-get if you need to install dependencies,
-RUN apt-get update && apt-get install -yq \
-   pi-blaster && \
-   apt-get clean && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /usr/src/app
-
-COPY package.json package.json
-
-# This install npm dependencies on the resin.io build server,
-# making sure to clean up the artifacts it creates in order to reduce the image size.
-RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf /tmp/*
-
-# This will copy all files in our root to the working  directory in the container
-COPY . ./
-
-# Enable systemd init system in container
+#switch on systemd init system in container
 ENV INITSYSTEM on
 
-# server.js will run when container starts up on the device
-CMD ["npm", "start"]
+RUN apt-get install -y git libi2c-dev python-serial i2c-tools python3-smbus arduino minicom python-dev
+RUN apt-get install - python3-rpi.gpio
+
+# pip install python deps from requirements.txt
+# For caching until requirements.txt changes
+COPY ./requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
+
+
+RUN git clone https://github.com/WiringPi/WiringPi.git && cd WiringPi && ./build && echo "wiringPi Installed"
+
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+
+CMD ["bash","start.sh"]
