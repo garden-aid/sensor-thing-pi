@@ -1,3 +1,4 @@
 picamera
 RPi.Gpio
 grovepi
+AWSIoTPythonSDK
