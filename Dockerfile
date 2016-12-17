@@ -1,7 +1,7 @@
 FROM resin/rpi-raspbian
 
 RUN apt-get update
-RUN apt-get install git wget
+RUN apt-get install git wget make
 
 ## Look at this https://www.dexterindustries.com/GrovePi/get-started-with-the-grovepi/setting-software/
 RUN git clone https://github.com/DexterInd/GrovePi.git
