@@ -1,39 +1,45 @@
 # Monitor temperature and report
+import os
 import time
 import grovepi
 import iot
 import json
 
 def load_config():
-    with open('config.json') as data_file:
+    file_name = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(file_name) as data_file:
         return json.load(data_file)
 
-CONFIG = load_config()
-
-SHADOW_CLIENT = iot.create_shadow_client(
-    CONFIG.endpoint,
-    CONFIG.ca_path,
-    CONFIG.key_path,
-    CONFIG.cert_path,
-    CONFIG.client_id
-)
-
-SHADOW_BOT = SHADOW_CLIENT.connect_to_shadow(SHADOW_CLIENT, 'garden-aid')
 
 DHT_SENSOR_PORT = 7
 DHT_SENSOR_TYPE = 0
 
-while True:
-    try:
-         # Get the temperature and Humidity from the DHT sensor
-        [TEMP, HUM] = grovepi.dht(DHT_SENSOR_PORT, DHT_SENSOR_TYPE)
-        print("temp=", TEMP, "thumidity=", HUM, "%")
+def start(client_id):
+    config = load_config()
 
-        # Report data to AWS
-        SHADOW_STATE = '{"state":{"desired":{"temperature":' + TEMP + ', "humidity":' + HUM + '}}}'
-        SHADOW_BOT.shadowUpdate(SHADOW_STATE, 5)
+    shadow_client = iot.create_shadow_client(
+        config.endpoint,
+        config.ca_path,
+        config.key_path,
+        config.cert_path,
+        config.client_id
+    )
 
-        # Sleep for 60 seconds
-        time.sleep(60)
-    except (IOError, TypeError) as err:
-        print "Error"
+    shadow = shadow_client.connect_to_shadow(shadow_client, client_id)
+
+    while True:
+        try:
+            # Get the temperature and Humidity from the DHT sensor
+            [temp, hum] = grovepi.dht(DHT_SENSOR_PORT, DHT_SENSOR_TYPE)
+            print("temp=", temp, "thumidity=", hum, "%")
+
+            # Report data to AWS
+            shadow_state = '{"state":{"desired":{"temperature":' + temp + ', "humidity":' + hum + '}}}'
+            shadow.shadowUpdate(shadow_state, 5)
+
+            # Sleep for 60 seconds
+            time.sleep(60)
+        except (IOError, TypeError) as err:
+            print "Error"
+
+start('garden-aid')
