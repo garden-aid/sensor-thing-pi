@@ -16,6 +16,9 @@ RUN git clone https://github.com/garden-aid/GrovePi.git && cd GrovePi/Software/P
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
+# Generate device cert
+RUN ./generate-cert.sh
+
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 
