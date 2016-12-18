@@ -13,11 +13,12 @@ RUN git clone https://github.com/garden-aid/GrovePi.git && cd GrovePi/Software/P
 
 # pip install python deps from requirements.txt
 # For caching until requirements.txt changes
-COPY ./requirements.txt /requirements.txt
-RUN pip install -r /requirements.txt
+COPY ./requirements.txt /usr/src/requirements.txt
+RUN pip install -r /usr/src/requirements.txt
 
 # Generate device cert
-RUN ./generate-cert.sh
+COPY ./generate-cert.sh /usr/src/generate-cert.sh
+RUN /usr/src/generate-cert.sh
 
 COPY . /usr/src/app/src
 WORKDIR /usr/src/app
