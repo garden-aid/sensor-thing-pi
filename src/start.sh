@@ -5,6 +5,6 @@ udevd &
 modprobe i2c-bcm2708
 modprobe i2c-dev
 
-. /usr/src/generate-cert.sh
+. ./generate-cert.sh
 
 python app.py

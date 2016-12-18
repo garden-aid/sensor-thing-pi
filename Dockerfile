@@ -17,10 +17,8 @@ COPY ./requirements.txt /usr/src/requirements.txt
 RUN pip install -r /usr/src/requirements.txt
 
 # Generate device cert
-COPY ./generate-cert.sh /usr/src/generate-cert.sh
-RUN chmod +x /usr/src/generate-cert.sh
 
-COPY . /usr/src/app/src
+COPY . /usr/src/app
 WORKDIR /usr/src/app
 
 CMD ["bash","start.sh"]
