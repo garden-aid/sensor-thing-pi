@@ -18,7 +18,7 @@ RUN pip install -r /usr/src/requirements.txt
 
 # Generate device cert
 
-COPY . /usr/src/app
+COPY . /usr/src/app/src
 WORKDIR /usr/src/app
 
 CMD ["bash","start.sh"]
