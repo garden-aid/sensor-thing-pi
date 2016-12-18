@@ -19,7 +19,7 @@ RUN pip install -r /requirements.txt
 # Generate device cert
 RUN ./generate-cert.sh
 
-COPY . /usr/src/app
+COPY . /usr/src/app/src
 WORKDIR /usr/src/app
 
 CMD ["bash","start.sh"]

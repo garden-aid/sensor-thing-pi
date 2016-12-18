@@ -11,11 +11,11 @@ DHT_SENSOR_TYPE = 0
 
 def start(client_id):
     shadow_client = iot.create_shadow_client(
-        os.environ['AWS_IOT_ENDPOINT'],
-        os.environ['AWS_IOT_CA_CERT_PATH'],
-        os.environ['AWS_IOT_KEY_PATH'],
-        os.environ['AWS_IOT_COMBINE_CERT_PATH'],
-        os.environ['RESIN_DEVICE_UUID']
+        os.environ.get('AWS_IOT_ENDPOINT'),
+        os.environ.get('AWS_IOT_CA_CERT_PATH'),
+        os.environ.get('AWS_IOT_KEY_PATH'),
+        os.environ.get('AWS_IOT_COMBINE_CERT_PATH'),
+        os.environ.get('RESIN_DEVICE_UUID')
     )
 
     shadow = shadow_client.connect_to_shadow(shadow_client, client_id)
